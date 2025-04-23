@@ -1,5 +1,12 @@
+import { QueryClientProvider } from '@/app/providers/QueryClientProvider';
+import { RouterProvider } from '@/app/providers/RouterProvider';
+
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <QueryClientProvider>
+      <RouterProvider />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
