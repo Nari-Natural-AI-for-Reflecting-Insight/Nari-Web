@@ -1,6 +1,8 @@
 import { PostSignupRequest } from '@/features/auth/apis/types';
 import { httpClient } from '@/shared/libs/httpClient';
 
+const BASE_URL = 'auth';
+
 const authApi = {
   postLogin: async () => {
     const url = ``;
@@ -10,7 +12,7 @@ const authApi = {
   },
   postCheckEmail: () => {},
   postSignup: async ({ email, password, nickname }: PostSignupRequest) => {
-    const url = 'auth/sign-up';
+    const url = `${BASE_URL}/sign-up`;
     const body = {
       newUserEmail: email,
       newPassword: password,
