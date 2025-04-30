@@ -1,0 +1,49 @@
+name: Deploy to Cloudflare Pages
+
+on:                 
+  push:
+  pull_request:
+
+concurrency:
+  group: deploy-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - run: npm ci --prefer-offline --no-audit
+
+      # 브랜치 → 빌드 스크립트 매핑
+      - name: Pick build script
+        id: pick
+        shell: bash
+        run: |
+          case "$GITHUB_REF_NAME" in
+            production) CMD=build:prod ;;
+            main)       CMD=build:staging ;;
+            *)          CMD=build:dev ;;
+          esac
+          echo "cmd=$CMD" >> "$GITHUB_OUTPUT"
+
+      - run: npm run ${{ steps.pick.outputs.cmd }}
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken:  ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GH_TOKEN }}
+          command: pages deploy ./dist --project-name=nari-web
