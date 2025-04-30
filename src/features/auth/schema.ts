@@ -15,4 +15,4 @@ export const signupSchema = z.object({
     }),
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
 });
-export type SignupInputs = z.infer<typeof signupSchema>;
+export type SignupValues = z.infer<typeof signupSchema>;
