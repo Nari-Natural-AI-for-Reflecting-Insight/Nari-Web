@@ -1,39 +1,67 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSignupMutation from '@/features/auth/hooks/useSignupMutation';
-import { SignupInputs, signupSchema } from '@/features/auth/schema';
+import { SignupValues, signupSchema } from '@/features/auth/schema';
+import { Form } from '@/shared/components/form';
 
 const Signup = () => {
   const signupMutation = useSignupMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignupInputs>({
+  const { handleSubmit, control } = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
+    defaultValues: { email: '', password: '', nickname: '' },
   });
 
-  const onSubmit: SubmitHandler<SignupInputs> = (data) => {
+  const onSubmit: SubmitHandler<SignupValues> = (data) => {
     signupMutation.mutate(data);
+    // todo : error 처리
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input placeholder="이메일을 입력해주세요" {...register('email')} />
-      {errors.email && <p>{errors.email.message}</p>}
-      <input
-        autoComplete="current-username"
-        placeholder="닉네임을 입력해주세요"
-        {...register('nickname')}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-start"
+    >
+      <Form.Field
+        control={control}
+        name="email"
+        render={({ field, formState }) => (
+          <>
+            <Form.Label>이메일</Form.Label>
+            <Form.Control field={field} placeholder="이메일을 입력해주세요" />
+            <Form.ErrorMessage errorMessage={formState.errors.email?.message} />
+          </>
+        )}
       />
-      {errors.nickname && <p>{errors.nickname.message}</p>}
-      <input
-        type="password"
-        autoComplete="current-password"
-        placeholder="비밀번호를 입력해주세요"
-        {...register('password')}
+      <Form.Field
+        control={control}
+        name="password"
+        render={({ field, formState }) => (
+          <>
+            <Form.Label>비밀번호</Form.Label>
+            <Form.Control
+              field={field}
+              placeholder="비밀번호를 입력해주세요"
+              type="password"
+            />
+            <Form.ErrorMessage
+              errorMessage={formState.errors.password?.message}
+            />
+          </>
+        )}
       />
-      {errors.password && <p>{errors.password.message}</p>}
+      <Form.Field
+        control={control}
+        name="nickname"
+        render={({ field, formState }) => (
+          <>
+            <Form.Label>닉네임</Form.Label>
+            <Form.Control field={field} placeholder="닉네임을 입력해주세요" />
+            <Form.ErrorMessage
+              errorMessage={formState.errors.nickname?.message}
+            />
+          </>
+        )}
+      />
       <input type="submit" />
     </form>
   );
