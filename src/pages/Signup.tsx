@@ -7,6 +7,7 @@ import { Form } from '@/shared/components/form';
 const Signup = () => {
   const signupMutation = useSignupMutation();
   const { handleSubmit, control } = useForm<SignupValues>({
+    mode: 'onChange',
     resolver: zodResolver(signupSchema),
     defaultValues: { email: '', password: '', nickname: '' },
   });

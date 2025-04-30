@@ -73,7 +73,12 @@ export const Control = <
   const { id } = useFormFieldContext();
 
   return (
-    <input className="border rounded border-gray-200" id={id} {...props} />
+    <input
+      className="border rounded border-gray-200"
+      id={id}
+      {...props}
+      {...props.field}
+    />
   );
 };
 
