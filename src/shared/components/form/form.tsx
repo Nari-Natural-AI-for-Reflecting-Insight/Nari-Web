@@ -18,7 +18,6 @@ export const Root = FormProvider;
 
 type FormFieldContextValue = {
   id: string;
-  name: string;
 };
 
 const [FormFieldProvider, useFormFieldContext] =
@@ -35,7 +34,7 @@ export const Field = <
   const id = useId();
 
   return (
-    <FormFieldProvider value={{ name: props.name, id }}>
+    <FormFieldProvider value={{ id }}>
       <Controller {...props} />
     </FormFieldProvider>
   );
