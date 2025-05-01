@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSignupMutation from '@/features/auth/hooks/useSignupMutation';
@@ -5,7 +6,7 @@ import { SignupValues, signupSchema } from '@/features/auth/schema';
 import { Form } from '@/shared/components/form';
 
 const Signup = () => {
-  const signupMutation = useSignupMutation();
+  const { mutate: signupMutate } = useSignupMutation();
   const { handleSubmit, control } = useForm<SignupValues>({
     mode: 'onChange',
     resolver: zodResolver(signupSchema),
@@ -13,8 +14,7 @@ const Signup = () => {
   });
 
   const onSubmit: SubmitHandler<SignupValues> = (data) => {
-    signupMutation.mutate(data);
-    // todo : error 처리
+    signupMutate(data);
   };
 
   return (
@@ -28,7 +28,11 @@ const Signup = () => {
         render={({ field, formState }) => (
           <>
             <Form.Label>이메일</Form.Label>
-            <Form.Control field={field} placeholder="이메일을 입력해주세요" />
+            <Form.Control
+              field={field}
+              placeholder="이메일을 입력해주세요"
+              autoComplete="current-email"
+            />
             <Form.ErrorMessage errorMessage={formState.errors.email?.message} />
           </>
         )}
@@ -43,6 +47,7 @@ const Signup = () => {
               field={field}
               placeholder="비밀번호를 입력해주세요"
               type="password"
+              autoComplete="current-password"
             />
             <Form.ErrorMessage
               errorMessage={formState.errors.password?.message}
