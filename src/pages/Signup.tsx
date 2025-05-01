@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSignupMutation from '@/features/auth/hooks/useSignupMutation';
