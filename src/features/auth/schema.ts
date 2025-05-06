@@ -21,3 +21,14 @@ export const signupSchema = z.object({
 });
 
 export type SignupValues = z.infer<typeof signupSchema>;
+
+
+export const signinSchema = z.object({
+  email: z.string().email('올바른 이메일을 입력해주세요.'),
+  password: z
+    .string()
+    .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' })
+    .max(50, { message: '비밀번호는 50자 이하이어야 합니다.' }),
+});
+
+export type SigninValues = z.infer<typeof signinSchema>;

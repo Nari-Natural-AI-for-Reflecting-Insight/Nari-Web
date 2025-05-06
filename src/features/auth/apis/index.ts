@@ -1,4 +1,4 @@
-import { PostSignupRequest } from '@/features/auth/apis/types';
+import { PostSignupRequest,PostSigninRequest, PostSigninResponse } from '@/features/auth/apis/types';
 import { httpClient } from '@/shared/libs/httpClient';
 
 const BASE_URL = 'auth';
@@ -20,6 +20,14 @@ const authApi = {
     };
     return await httpClient.post(url, body);
   },
+  postSignin: async ({ email, password }: PostSigninRequest): Promise<PostSigninResponse> => {
+    const url = `${BASE_URL}/sign-in/access-token`;
+    const body = {
+      email,
+      password,
+    };
+    return await httpClient.post(url, body);
+  }
 };
 
 export default authApi;
