@@ -1,7 +1,13 @@
-import { ErrorData } from "./error";
+import { ErrorData } from '@/shared/types/error';
 
-export interface ApiResponse<T> {
-  result: 'SUCCESS' | 'ERROR';
+export interface ApiSuccessResponse<T> {
+  result: 'SUCCESS';
   data: T;
-  error: ErrorData | null;
+  error: null;
+}
+
+export interface ApiErrorResponse {
+  result: 'ERROR';
+  data: null;
+  error: ErrorData;
 }

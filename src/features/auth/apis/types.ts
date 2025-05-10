@@ -1,4 +1,4 @@
-import { ApiResponse } from '@/shared/types/api';
+import { ApiSuccessResponse } from '@/shared/types/api';
 
 export type PostSignupRequest = {
   email: string;
@@ -11,6 +11,6 @@ export type PostSigninRequest = {
   password: string;
 };
 
-export type PostSigninResponse = ApiResponse<{
+export type PostSigninResponse = ApiSuccessResponse<{
   accessToken: string;
 }>;

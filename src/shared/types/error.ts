@@ -1,9 +1,4 @@
-export type ErrorData = {
-  result: string;
-  data: null;
-  error: {
-    code: string;
-    message: string;
-    data: null;
-  };
-};
+export interface ErrorData {
+  code: string;
+  message: string;
+}
