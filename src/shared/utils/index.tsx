@@ -1,19 +1,19 @@
 const ACCESS_TOKEN_KEY = 'accessToken'
 
 export const accessTokenStorage = {
-  set: (token: string) => {
+  setToken: (token: string) => {
     localStorage.setItem(ACCESS_TOKEN_KEY, token)
   },
 
-  get: (): string | null => {
+  getToken: (): string | null => {
     return localStorage.getItem(ACCESS_TOKEN_KEY)
   },
 
-  remove: () => {
+  removeToken: () => {
     localStorage.removeItem(ACCESS_TOKEN_KEY)
   },
 
-  exists: (): boolean => {
+  hasToken: (): boolean => {
     return Boolean(localStorage.getItem(ACCESS_TOKEN_KEY))
   },
 }

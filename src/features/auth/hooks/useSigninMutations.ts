@@ -16,7 +16,7 @@ const useSigninMutation = () => {
     mutationFn: authApi.postSignin,
     onSuccess: (response:PostSigninResponse) => {
         const { accessToken } = response.data;
-        accessTokenStorage.set(accessToken);     
+        accessTokenStorage.setToken(accessToken);     
         
         toast.success('로그인에 성공했습니다.');
         navigate('/');
