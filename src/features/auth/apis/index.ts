@@ -2,6 +2,8 @@ import {
   PostSignupRequest,
   PostSigninRequest,
   PostSigninResponse,
+  PostEmailVerificationCodeRequest,
+  PostEmailVerificationCodeCheckRequest,
 } from '@/features/auth/apis/types';
 import { httpClient } from '@/shared/libs/httpClient';
 
@@ -32,6 +34,26 @@ const authApi = {
     const body = {
       email,
       password,
+    };
+    return await httpClient.post(url, body);
+  },
+  PostEmailVerificationCode: async ({
+    email,
+  }: PostEmailVerificationCodeRequest) => {
+    const url = `${BASE_URL}/email-verification-code`;
+    const body = {
+      toEmail: email,
+    };
+    return await httpClient.post(url, body);
+  },
+  PostEmailVerificationCodeCheck: async ({
+    email,
+    verificationCode,
+  }: PostEmailVerificationCodeCheckRequest) => {
+    const url = `${BASE_URL}/email-verification-code`;
+    const body = {
+      targetEmail: email,
+      verificationCode,
     };
     return await httpClient.post(url, body);
   },
