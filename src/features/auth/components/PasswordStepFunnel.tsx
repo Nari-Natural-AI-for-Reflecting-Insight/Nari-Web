@@ -10,7 +10,8 @@ type Passwords = {
 
 type PasswordStepFunnelProps = {
   onNext: ({ password, passwordConfirm }: Passwords) => void;
-  context: Partial<SignupValues>;
+  context: Partial<SignupValues> &
+    Pick<SignupValues, 'email' | 'emailCodeCheck'>;
 };
 
 const PasswordStepFunnel = ({ onNext, context }: PasswordStepFunnelProps) => {

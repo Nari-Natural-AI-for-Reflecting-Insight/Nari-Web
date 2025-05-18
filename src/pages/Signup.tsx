@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFunnel } from '@use-funnel/react-router';
-import EmailCheckStepFunnel from '@/features/auth/components/EmailCheckStepFunnel';
+import EmailCodeCheckStepFunnel from '@/features/auth/components/EmailCodeCheckStepFunnel';
 import EmailStepFunnel from '@/features/auth/components/EmailStepFunnel';
 import NicknameStepFunnel from '@/features/auth/components/NicknameStepFunnel';
 import PasswordStepFunnel from '@/features/auth/components/PasswordStepFunnel';
@@ -19,7 +19,7 @@ const Signup = () => {
       step: 'EmailStep',
       context: {
         email: '',
-        emailCheckCode: '',
+        emailCodeCheck: '',
         password: '',
         passwordConfirm: '',
         nickname: '',
@@ -48,15 +48,15 @@ const Signup = () => {
           EmailStep={({ history, context }) => (
             <EmailStepFunnel
               onNext={(email) =>
-                history.push('EmailCheckCodeStep', { ...context, email })
+                history.push('EmailCodeCheckStep', { ...context, email })
               }
             />
           )}
-          EmailCheckCodeStep={({ history, context }) => (
-            <EmailCheckStepFunnel
+          EmailCodeCheckStep={({ history, context }) => (
+            <EmailCodeCheckStepFunnel
               context={context}
-              onNext={(emailCheckCode) =>
-                history.push('PasswordStep', { ...context, emailCheckCode })
+              onNext={(emailCodeCheck) =>
+                history.push('PasswordStep', { ...context, emailCodeCheck })
               }
             />
           )}

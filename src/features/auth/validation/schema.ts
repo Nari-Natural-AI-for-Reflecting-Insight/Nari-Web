@@ -1,8 +1,15 @@
 import { z } from 'zod';
 
-export const signupSchema = z
-  .object({
-    email: z.string().email('올바른 이메일을 입력해주세요.'),
+export const baseSignupSchema = z.object({
+  email: z.string().email('올바른 이메일을 입력해주세요.'),
+  emailCodeCheck: z.string(),
+  password: z.string(),
+  passwordConfirm: z.string(),
+  nickname: z.string(),
+});
+
+export const signupSchema = baseSignupSchema
+  .extend({
     password: z
       .string()
       .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' })
@@ -15,12 +22,10 @@ export const signupSchema = z
       .regex(/^[0-9a-zA-Z!@#$%^&*()]+$/, {
         message: '허용되지 않은 문자가 포함되어 있습니다.',
       }),
-    passwordConfirm: z.string(),
     nickname: z
       .string()
       .min(1, { message: '닉네임을 입력해주세요.' })
       .max(20, { message: '닉네임은 20자 이하로 입력해주세요.' }),
-    emailCheckCode: z.string(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],

@@ -50,7 +50,7 @@ const authApi = {
     email,
     verificationCode,
   }: PostEmailVerificationCodeCheckRequest) => {
-    const url = `${BASE_URL}/email-verification-code`;
+    const url = `${BASE_URL}/email-verification-code/check`;
     const body = {
       targetEmail: email,
       verificationCode,

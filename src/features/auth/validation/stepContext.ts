@@ -1,33 +1,25 @@
-import { z } from 'zod';
+import { baseSignupSchema } from '@/features/auth/validation/schema';
 
-const signupStepSchema = z
-  .object({
-    email: z.string(),
-    password: z.string(),
-    passwordConfirm: z.string(),
-    nickname: z.string(),
-    emailCheckCode: z.string(),
-  })
-  .partial();
+const signupStepSchema = baseSignupSchema.partial();
 
 const emailStepSchema = signupStepSchema.partial();
-const emailCheckCodeStepSchema = emailStepSchema.required({
+const emailCodeCheckStepSchema = emailStepSchema.required({
   email: true,
 });
-const passwordStepSchema = emailCheckCodeStepSchema.required({
+const passwordStepSchema = emailCodeCheckStepSchema.required({
   email: true,
-  emailCheckCode: true,
+  emailCodeCheck: true,
 });
 const nicknameStepSchema = passwordStepSchema.required({
   email: true,
-  emailCheckCode: true,
+  emailCodeCheck: true,
   password: true,
   passwordConfirm: true,
 });
 
 export const signupSteps = {
   EmailStep: { parse: emailStepSchema.parse },
-  EmailCheckCodeStep: { parse: emailCheckCodeStepSchema.parse },
+  EmailCodeCheckStep: { parse: emailCodeCheckStepSchema.parse },
   PasswordStep: { parse: passwordStepSchema.parse },
   NicknameStep: { parse: nicknameStepSchema.parse },
 };

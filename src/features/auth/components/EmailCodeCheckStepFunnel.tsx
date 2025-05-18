@@ -1,31 +1,31 @@
 import { useFormContext } from 'react-hook-form';
-import useEmailVerificationCodeCheckMutation from '@/features/auth/hooks/useEmailVerificationCodeCheckMutation.ts';
+import useEmailVerificationCodeCheckMutation from '@/features/auth/hooks/useEmailCodeCheckMutation';
 import { SignupValues } from '@/features/auth/validation/schema';
 import Button from '@/shared/components/Button';
 import { Form } from '@/shared/components/form';
 
-type EmailCheckCodeStepFunnelProps = {
+type EmailCodeCheckStepFunnelProps = {
   onNext: (emailCheckCode: string) => void;
   context: Partial<SignupValues> & Pick<SignupValues, 'email'>;
 };
 
-const EmailCheckCodeStepFunnel = ({
+const EmailCodeCheckStepFunnel = ({
   onNext,
   context,
-}: EmailCheckCodeStepFunnelProps) => {
+}: EmailCodeCheckStepFunnelProps) => {
   const { control, getValues, trigger } = useFormContext<SignupValues>();
   const { mutate: emailVerificationCheckCodeMutate } =
     useEmailVerificationCodeCheckMutation();
 
   const handleOnClick = async () => {
-    const isValid = await trigger('emailCheckCode');
+    const isValid = await trigger('emailCodeCheck');
 
     if (isValid) {
       emailVerificationCheckCodeMutate({
         email: context.email,
-        verificationCode: getValues('emailCheckCode'),
+        verificationCode: getValues('emailCodeCheck'),
       });
-      onNext(getValues('emailCheckCode'));
+      onNext(getValues('emailCodeCheck'));
     }
   };
 
@@ -34,7 +34,7 @@ const EmailCheckCodeStepFunnel = ({
       <h2>이메일 인증</h2>
       <Form.Field
         control={control}
-        name="emailCheckCode"
+        name="emailCodeCheck"
         render={({ field, formState }) => (
           <>
             <Form.Control
@@ -43,7 +43,7 @@ const EmailCheckCodeStepFunnel = ({
               autoComplete="current-email"
             />
             <Form.ErrorMessage
-              errorMessage={formState.errors.emailCheckCode?.message}
+              errorMessage={formState.errors.emailCodeCheck?.message}
             />
           </>
         )}
@@ -53,4 +53,4 @@ const EmailCheckCodeStepFunnel = ({
   );
 };
 
-export default EmailCheckCodeStepFunnel;
+export default EmailCodeCheckStepFunnel;

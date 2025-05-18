@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import authApi from '@/features/auth/apis';
 
-const useEmailVerificationCodeCheckMutation = () => {
+const useEmailCodeCheckMutation = () => {
   return useMutation({
     mutationFn: authApi.PostEmailVerificationCodeCheck,
     onError: ({ data }) => {
@@ -11,4 +11,4 @@ const useEmailVerificationCodeCheckMutation = () => {
   });
 };
 
-export default useEmailVerificationCodeCheckMutation;
+export default useEmailCodeCheckMutation;
