@@ -10,14 +10,19 @@ type EmailStepFunnelProps = {
 
 const EmailStepFunnel = ({ onNext }: EmailStepFunnelProps) => {
   const { control, getValues, trigger } = useFormContext<SignupValues>();
-  const { mutate: emailVerificationMutate } = useEmailVerificationMutation();
+  const { mutateAsync: emailVerificationMutateAsync } =
+    useEmailVerificationMutation();
   const handleOnClick = async () => {
     const isValid = await trigger('email');
+    if (!isValid) {
+      return;
+    }
 
-    if (isValid) {
-      emailVerificationMutate({ email: getValues('email') });
-      // TODO : 성공시에만 다음단계
+    try {
+      await emailVerificationMutateAsync({ email: getValues('email') });
       onNext(getValues('email'));
+    } catch {
+      return;
     }
   };
 

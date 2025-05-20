@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const baseSignupSchema = z.object({
-  email: z.string().email('올바른 이메일을 입력해주세요.'),
+  email: z.string(),
   emailCodeCheck: z.string(),
   password: z.string(),
   passwordConfirm: z.string(),
@@ -10,6 +10,7 @@ export const baseSignupSchema = z.object({
 
 export const signupSchema = baseSignupSchema
   .extend({
+    email: z.string().email('올바른 이메일을 입력해주세요.'),
     password: z
       .string()
       .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' })

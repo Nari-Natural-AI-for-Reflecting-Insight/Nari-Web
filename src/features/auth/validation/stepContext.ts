@@ -1,8 +1,6 @@
 import { baseSignupSchema } from '@/features/auth/validation/schema';
 
-const signupStepSchema = baseSignupSchema.partial();
-
-const emailStepSchema = signupStepSchema.partial();
+const emailStepSchema = baseSignupSchema.partial();
 const emailCodeCheckStepSchema = emailStepSchema.required({
   email: true,
 });

@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import useEmailVerificationCodeCheckMutation from '@/features/auth/hooks/useEmailCodeCheckMutation';
+import useEmailCodeCheckMutation from '@/features/auth/hooks/useEmailCodeCheckMutation';
 import { SignupValues } from '@/features/auth/validation/schema';
 import Button from '@/shared/components/Button';
 import { Form } from '@/shared/components/form';
@@ -14,18 +14,24 @@ const EmailCodeCheckStepFunnel = ({
   context,
 }: EmailCodeCheckStepFunnelProps) => {
   const { control, getValues, trigger } = useFormContext<SignupValues>();
-  const { mutate: emailVerificationCheckCodeMutate } =
-    useEmailVerificationCodeCheckMutation();
+  const { mutateAsync: emailCodeCheckMutateAsync } =
+    useEmailCodeCheckMutation();
 
   const handleOnClick = async () => {
     const isValid = await trigger('emailCodeCheck');
+    if (!isValid) {
+      return;
+    }
 
-    if (isValid) {
-      emailVerificationCheckCodeMutate({
+    try {
+      await emailCodeCheckMutateAsync({
         email: context.email,
         verificationCode: getValues('emailCodeCheck'),
       });
+
       onNext(getValues('emailCodeCheck'));
+    } catch {
+      return;
     }
   };
 
@@ -37,11 +43,7 @@ const EmailCodeCheckStepFunnel = ({
         name="emailCodeCheck"
         render={({ field, formState }) => (
           <>
-            <Form.Control
-              field={field}
-              placeholder="이메일을 입력해주세요"
-              autoComplete="current-email"
-            />
+            <Form.Control field={field} placeholder="인증번호를 입력해주세요" />
             <Form.ErrorMessage
               errorMessage={formState.errors.emailCodeCheck?.message}
             />
