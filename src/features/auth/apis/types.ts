@@ -14,3 +14,8 @@ export type PostSigninRequest = {
 export type PostSigninResponse = ApiSuccessResponse<{
   accessToken: string;
 }>;
+
+export type PostEmailVerificationCodeRequest = { email: string };
+
+export type PostEmailVerificationCodeCheckRequest =
+  PostEmailVerificationCodeRequest & { verificationCode: string };

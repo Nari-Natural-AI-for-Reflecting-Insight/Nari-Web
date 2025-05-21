@@ -1,74 +1,81 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useFunnel } from '@use-funnel/react-router';
+import EmailCodeCheckStepFunnel from '@/features/auth/components/EmailCodeCheckStepFunnel';
+import EmailStepFunnel from '@/features/auth/components/EmailStepFunnel';
+import NicknameStepFunnel from '@/features/auth/components/NicknameStepFunnel';
+import PasswordStepFunnel from '@/features/auth/components/PasswordStepFunnel';
 import useSignupMutation from '@/features/auth/hooks/useSignupMutation';
-import { SignupValues, signupSchema } from '@/features/auth/schema';
+import { signupSchema, SignupValues } from '@/features/auth/validation/schema';
+import { signupSteps } from '@/features/auth/validation/stepContext';
 import { Form } from '@/shared/components/form';
 
 const Signup = () => {
   const { mutate: signupMutate } = useSignupMutation();
-  const { handleSubmit, control } = useForm<SignupValues>({
+  const funnel = useFunnel({
+    id: 'signup',
+    steps: signupSteps,
+    initial: {
+      step: 'EmailStep',
+      context: {
+        email: '',
+        emailCodeCheck: '',
+        password: '',
+        passwordConfirm: '',
+        nickname: '',
+      },
+    },
+  });
+  const methods = useForm<SignupValues>({
     mode: 'onChange',
     resolver: zodResolver(signupSchema),
-    defaultValues: { email: '', password: '', nickname: '' },
+    defaultValues: {
+      ...funnel.context,
+    },
   });
+  // TODO : 새로고침시 히스토리, RHF 상태 동기화
+  // console.log(funnel.context);
 
   const onSubmit: SubmitHandler<SignupValues> = (data) => {
-    signupMutate(data);
+    const { password, nickname, email } = data;
+    signupMutate({ password, nickname, email });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-start"
-    >
-      <Form.Field
-        control={control}
-        name="email"
-        render={({ field, formState }) => (
-          <>
-            <Form.Label>이메일</Form.Label>
-            <Form.Control
-              field={field}
-              placeholder="이메일을 입력해주세요"
-              autoComplete="current-email"
+    <Form.Root {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <funnel.Render
+          EmailStep={({ history, context }) => (
+            <EmailStepFunnel
+              onNext={(email) =>
+                history.push('EmailCodeCheckStep', { ...context, email })
+              }
             />
-            <Form.ErrorMessage errorMessage={formState.errors.email?.message} />
-          </>
-        )}
-      />
-      <Form.Field
-        control={control}
-        name="password"
-        render={({ field, formState }) => (
-          <>
-            <Form.Label>비밀번호</Form.Label>
-            <Form.Control
-              field={field}
-              placeholder="비밀번호를 입력해주세요"
-              type="password"
-              autoComplete="current-password"
+          )}
+          EmailCodeCheckStep={({ history, context }) => (
+            <EmailCodeCheckStepFunnel
+              context={context}
+              onNext={(emailCodeCheck) =>
+                history.push('PasswordStep', { ...context, emailCodeCheck })
+              }
             />
-            <Form.ErrorMessage
-              errorMessage={formState.errors.password?.message}
+          )}
+          PasswordStep={({ history, context }) => (
+            <PasswordStepFunnel
+              context={context}
+              onNext={({ password, passwordConfirm }) =>
+                history.push('NicknameStep', {
+                  ...context,
+                  password,
+                  passwordConfirm,
+                })
+              }
             />
-          </>
-        )}
-      />
-      <Form.Field
-        control={control}
-        name="nickname"
-        render={({ field, formState }) => (
-          <>
-            <Form.Label>닉네임</Form.Label>
-            <Form.Control field={field} placeholder="닉네임을 입력해주세요" />
-            <Form.ErrorMessage
-              errorMessage={formState.errors.nickname?.message}
-            />
-          </>
-        )}
-      />
-      <input type="submit" />
-    </form>
+          )}
+          NicknameStep={() => <NicknameStepFunnel />}
+        />
+      </form>
+    </Form.Root>
   );
 };
 
