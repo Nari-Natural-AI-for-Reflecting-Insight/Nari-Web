@@ -38,6 +38,23 @@ jobs:
           esac
           echo "cmd=$CMD" >> "$GITHUB_OUTPUT"
 
+      # GitHub Secrets에 저장된 base64 값을 .env.* 파일로 복원
+      - name: Generate .env file
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$GITHUB_REF_NAME" in
+            production)
+              echo "${{ secrets.ENV_PROD_B64 }}"    | base64 --decode > .env.prod
+              ;;
+            main)
+              echo "${{ secrets.ENV_STAGING_B64 }}" | base64 --decode > .env.staging
+              ;;
+            *)
+              echo "${{ secrets.ENV_DEV_B64 }}"     | base64 --decode > .env.dev
+              ;;
+          esac
+
       - run: npm run ${{ steps.pick.outputs.cmd }}
 
       - name: Deploy to Cloudflare Pages
@@ -47,3 +64,4 @@ jobs:
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GH_TOKEN }}
           command: pages deploy ./dist --project-name=nari-web
+          
