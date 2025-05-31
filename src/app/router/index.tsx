@@ -1,5 +1,7 @@
 import { createBrowserRouter } from 'react-router';
+import PrivateRoute from '@/app/router/PrivateRoute';
 import Home from '@/pages/Home';
+import My from '@/pages/My';
 import Signin from '@/pages/Signin';
 import Signup from '@/pages/Signup';
 
@@ -15,5 +17,14 @@ export const router = createBrowserRouter([
   {
     path: '/signin',
     element: <Signin />,
-  }
+  },
+  {
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: '/my',
+        element: <My />,
+      },
+    ],
+  },
 ]);
