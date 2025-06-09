@@ -17,12 +17,11 @@ const authApi = {
     return await httpClient.post(url, body);
   },
   postCheckEmail: () => {},
-  postSignup: async ({ email, password, nickname }: PostSignupRequest) => {
+  postSignup: async ({ email, password }: PostSignupRequest) => {
     const url = `${BASE_URL}/sign-up`;
     const body = {
       newUserEmail: email,
       newPassword: password,
-      newNickname: nickname,
     };
     return await httpClient.post(url, body);
   },
