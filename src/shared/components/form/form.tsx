@@ -73,7 +73,7 @@ export const Control = <
 
   return (
     <input
-      className="border rounded border-gray-200"
+      className="bg-[#60554F] max-w-[371px] w-full h-14 text-[#AAAAAA] rounded-4xl px-6 py-3 outline-none focus:border-[#FF7500] border border-[#60554F] focus:bg-[#824427] focus:text-white"
       id={id}
       {...props}
       {...props.field}
@@ -90,8 +90,14 @@ type FormErrorMessageProps = {
 };
 
 export const ErrorMessage = ({ errorMessage }: FormErrorMessageProps) => {
+  const { id } = useFormFieldContext();
   if (!errorMessage) {
     return null;
   }
-  return <p className="text-red-500 text-sm">{errorMessage}</p>;
+
+  return (
+    <p id={`${id}-error`} className="text-red-500 text-xs text-center w-full">
+      {errorMessage}
+    </p>
+  );
 };
