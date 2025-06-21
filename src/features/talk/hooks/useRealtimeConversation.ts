@@ -1,5 +1,5 @@
 import { useCallback, useReducer, useRef } from 'react';
-import { RealtimeUtils } from '../utils/RealtimeUtils';
+import { RealtimeUtils } from '@/shared/utils/RealtimeUtils';
 import { ItemStatus, ServerItemType, SessionRole } from './constants';
 import { ItemContentDelta, ServerItem, RealtimeEventType } from './types';
 

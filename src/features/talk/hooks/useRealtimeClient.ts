@@ -1,6 +1,6 @@
 
 import { useCallback } from 'react';
-import { RealtimeUtils } from '../utils/RealtimeUtils';
+import { RealtimeUtils } from '@/shared/utils/RealtimeUtils';
 import { AudioTransactionModel, ClientEventType, ItemStatus, ServerEventType, TalkEventType, TurnDetectionType } from './constants';
 import { ConversationEventType, useRealtimeConversation } from './useRealtimeConversation';
 import useRealtimeSocket from './useRealtimeSocket';

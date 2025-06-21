@@ -1,6 +1,6 @@
 
 import { useCallback, useRef } from 'react';
-import { RealtimeUtils } from '@openai/realtime-api-beta';
+import { RealtimeUtils } from '@/shared/utils/RealtimeUtils';
 import { ServerEvent } from './types';
 import useTalkEventHandler from './useTalkEventHandler';
 
