@@ -5,7 +5,6 @@ export const baseSignupSchema = z.object({
   emailCodeCheck: z.string(),
   password: z.string(),
   passwordConfirm: z.string(),
-  nickname: z.string(),
 });
 
 export const nicknameField = z
