@@ -165,6 +165,8 @@ const useHandleRealtimeAPI = ({ apiUrl, sampleRate }:UseHandleRealtimeAPIProps) 
         audio_end_ms: Math.floor((sampleCount / 24_000) * 1000)
       }
     });
+
+    return { item };
   }, [realtimeConversation, send]);
 
   return { connectRealtime, disconnectRealtime, appendInputAudio, initTalkSession, cancelResponse };
