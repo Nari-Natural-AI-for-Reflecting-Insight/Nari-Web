@@ -11,11 +11,15 @@ export interface ResponseType {
   output: string[];
 }
 
+export const defaultSampleRate = 24_000; // 24 kHz
+
 const useForceUpdate = () => useReducer((n) => n + 1, 0)[1];
 
-export function useRealtimeConversation() {
-  const defaultFrequency = 24_000; // 24 kHz
+type useRealtimeConversationProps = {
+    sampleRate?: number;
+}
 
+export function useRealtimeConversation({ sampleRate = defaultSampleRate }: useRealtimeConversationProps = {}) {
   const itemLookup = useRef<Record<string, ServerItem>>({});
   const items = useRef<ServerItem[]>([]);
   const responseLookup = useRef<Record<string, ResponseType>>({});
@@ -97,7 +101,7 @@ export function useRealtimeConversation() {
       const { item_id, audio_end_ms } = event;
       const item = itemLookup.current[item_id];
       if (!item) {throw new Error(`item.truncated: Item "${item_id}" not found`);}
-      const endIndex = Math.floor((audio_end_ms * defaultFrequency) / 1000);
+      const endIndex = Math.floor((audio_end_ms * sampleRate) / 1000);
       item.formatted.transcript = '';
       item.formatted.audio = item.formatted.audio.slice(0, endIndex);
       return { item, delta: null };
@@ -140,8 +144,8 @@ export function useRealtimeConversation() {
       const speech = queuedSpeechItems.current[item_id];
       speech.audio_end_ms = audio_end_ms;
       if (inputAudioBuffer) {
-        const sIdx = Math.floor((speech.audio_start_ms * defaultFrequency) / 1000);
-        const eIdx = Math.floor((speech.audio_end_ms * defaultFrequency) / 1000);
+        const sIdx = Math.floor((speech.audio_start_ms * sampleRate) / 1000);
+        const eIdx = Math.floor((speech.audio_end_ms * sampleRate) / 1000);
         speech.audio = inputAudioBuffer.slice(sIdx, eIdx);
       }
       return { item: null, delta: null };

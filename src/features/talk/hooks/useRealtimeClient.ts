@@ -8,6 +8,7 @@ import useTalkEventHandler from './useTalkEventHandler';
 
 type UseHandleRealtimeAPIProps = {
     apiUrl: string;
+    sampleRate: number;
 };
 
 const defaultSessionConfig = {
@@ -24,15 +25,15 @@ const defaultSessionConfig = {
   max_response_output_tokens: 4096,
 };
 
-const useHandleRealtimeAPI = ({ apiUrl }:UseHandleRealtimeAPIProps) => {
+const useHandleRealtimeAPI = ({ apiUrl, sampleRate }:UseHandleRealtimeAPIProps) => {
 
   const { connect, disconnect, send } = useRealtimeSocket({ apiUrl }); 
 
-  const realtimeConversation = useRealtimeConversation();
+  const realtimeConversation = useRealtimeConversation({sampleRate});
 
   const handler = useCallback((event: unknown, ...args: unknown[]) => {
-
     const { item, delta } = realtimeConversation.processEvent(event as ConversationEventType, ...args);
+
     return { item, delta };
   }, [realtimeConversation]);
 
@@ -95,8 +96,10 @@ const useHandleRealtimeAPI = ({ apiUrl }:UseHandleRealtimeAPIProps) => {
   }, [initEventListener, connect]); 
 
   const disconnectRealtime = useCallback(() => {
+    realtimeConversation.clear();
+    talkEventHandler.all.clear();
     disconnect();
-  }, [disconnect]);
+  }, [disconnect, realtimeConversation, talkEventHandler]);
 
   const appendInputAudio = useCallback((arrayBuffer: Int16Array|ArrayBuffer) => {
     if (!arrayBuffer) {
