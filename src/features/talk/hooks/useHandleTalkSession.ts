@@ -8,11 +8,12 @@ import useTalkEventHandler from './useTalkEventHandler';
 
 const useHandleTalkSession = (apiUrl: string) => {
 
-  const recRef = useRef<WavRecorder>(new WavRecorder({ sampleRate: 24000 }));
-  const playerRef = useRef<WavStreamPlayer>(new WavStreamPlayer({ sampleRate: 24000 }));
+  const sampleRate = 24000;
+  const recRef = useRef<WavRecorder>(new WavRecorder({ sampleRate }));
+  const playerRef = useRef<WavStreamPlayer>(new WavStreamPlayer({ sampleRate }));
   const [sessionStatus, setSessionStatus] = useState<TalkSessionStatus>(TalkSessionStatus.Idle);
   const connectedRef = useRef(false);
-  const client = useRealtimeClient({ apiUrl });
+  const client = useRealtimeClient({ apiUrl, sampleRate });
   const talkEventHandler = useTalkEventHandler();
 
   const disconnectTalkSession = useCallback(async () => {
