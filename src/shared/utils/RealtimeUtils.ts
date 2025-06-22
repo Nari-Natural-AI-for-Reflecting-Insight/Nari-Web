@@ -31,11 +31,11 @@ export const RealtimeUtils = {
 
     const bytes = new Uint8Array(data);
     const chunk = 0x8000;
-    let binary = '';
+    const bins = [];
     for (let i = 0; i < bytes.length; i += chunk) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunk) as any);
+      bins.push(String.fromCharCode(...bytes.subarray(i, i + chunk)));
     }
-    return btoaFn(binary);
+    return btoaFn(bins.join(''));
   },
 
   /* 두 Int16Array 병합 */
