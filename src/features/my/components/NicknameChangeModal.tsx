@@ -29,7 +29,7 @@ const NicknameChangeModal = ({
   return (
     <RadixDialog.Root modal open={open} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
-        <RadixDialog.Content className="fixed inset-0  bg-white">
+        <RadixDialog.Content className="">
           <RadixDialog.Title>닉네임 변경</RadixDialog.Title>
           <form
             onSubmit={handleSubmit(onSubmit)}
