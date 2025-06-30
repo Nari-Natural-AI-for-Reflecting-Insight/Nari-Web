@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router';
-import PrivateRoute from '@/app/router/PrivateRoute';
 import { RouterErrorBoundary } from '@/app/providers/RouterErrorBoundary';
+import PrivateRoute from '@/app/router/PrivateRoute';
 import AppLayout from '@/shared/layout/AppLayout';
 import Home from '@/pages/Home';
 import My from '@/pages/My';
@@ -28,7 +28,10 @@ export const router = createBrowserRouter([
         element: <Signin />,
       },
       {
-        element: <PrivateRoute />,
+        path: 'talk',
+        element: <Talk />,
+      },
+      {
         children: [
           {
             path: '/my',
@@ -40,9 +43,10 @@ export const router = createBrowserRouter([
   },
   {
     path: '/talk',
-    element: 
+    element: (
       <TalkEventHandlerProvider>
         <Talk />
       </TalkEventHandlerProvider>
-  }
+    ),
+  },
 ]);
