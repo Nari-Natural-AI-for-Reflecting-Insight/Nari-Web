@@ -6,6 +6,8 @@ import Home from '@/pages/Home';
 import My from '@/pages/My';
 import Signin from '@/pages/Signin';
 import Signup from '@/pages/Signup';
+import Talk from '@/pages/Talk';
+import TalkEventHandlerProvider from '../providers/TalkEventHandlerProvider';
 
 export const router = createBrowserRouter([
   {
@@ -36,4 +38,11 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/talk',
+    element: 
+      <TalkEventHandlerProvider>
+        <Talk />
+      </TalkEventHandlerProvider>
+  }
 ]);
