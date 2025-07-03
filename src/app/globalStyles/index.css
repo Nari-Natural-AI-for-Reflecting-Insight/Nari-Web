@@ -9,6 +9,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'KBO-Dia-Gothic';
+  src: url('public/fonts/KBO-Dia-Gothic_medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KBO-Dia-Gothic';
+  src: url('public/fonts/KBO-Dia-Gothic_bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @theme {
   --font-mochiy: 'Mochiy Pop One', sans-serif;
   --font-kbo: 'KBO-Dia-Gothic', sans-serif;
@@ -16,4 +30,5 @@
 
 body {
   font-family: 'Pretendard', sans-serif;
+  font-weight: 300;
 }
