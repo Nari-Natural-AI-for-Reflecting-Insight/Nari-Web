@@ -1,0 +1,65 @@
+import { SVGProps } from 'react';
+
+const DiaryIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="29"
+    height="34"
+    viewBox="0 0 29 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M5 1.0127H24C26.2091 1.0127 28 2.80356 28 5.0127V28.0127C28 30.2218 26.2091 32.0127 24 32.0127H5C2.79086 32.0127 1 30.2218 1 28.0127V5.0127C1 2.80356 2.79086 1.0127 5 1.0127Z"
+      stroke="currentColor"
+      strokeWidth={2}
+    />
+    <line
+      x1="6"
+      y1="7.0127"
+      x2="23"
+      y2="7.0127"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <line
+      x1="6"
+      y1="11.0127"
+      x2="23"
+      y2="11.0127"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <line
+      x1="6"
+      y1="15.0127"
+      x2="23"
+      y2="15.0127"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <line
+      x1="6"
+      y1="19.0127"
+      x2="23"
+      y2="19.0127"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <line
+      x1="6"
+      y1="23.0127"
+      x2="23"
+      y2="23.0127"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export default DiaryIcon;
