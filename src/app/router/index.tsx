@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router';
 import { RouterErrorBoundary } from '@/app/providers/RouterErrorBoundary';
 import PrivateRoute from '@/app/router/PrivateRoute';
 import AppLayout from '@/shared/layout/AppLayout';
+import Data from '@/pages/Data';
 import Diary from '@/pages/Diary';
 import Home from '@/pages/Home';
 import My from '@/pages/My';
@@ -29,25 +30,30 @@ export const router = createBrowserRouter([
         element: <Signin />,
       },
       {
+        element: <PrivateRoute />,
         children: [
           {
             path: '/my',
             element: <My />,
           },
           {
+            path: '/data',
+            element: <Data />,
+          },
+          {
             path: '/diary',
             element: <Diary />,
+          },
+          {
+            path: '/talk',
+            element: (
+              <TalkEventHandlerProvider>
+                <Talk />
+              </TalkEventHandlerProvider>
+            ),
           },
         ],
       },
     ],
-  },
-  {
-    path: '/talk',
-    element: (
-      <TalkEventHandlerProvider>
-        <Talk />
-      </TalkEventHandlerProvider>
-    ),
   },
 ]);
