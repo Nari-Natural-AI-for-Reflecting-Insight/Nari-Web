@@ -52,7 +52,7 @@ export const Label = (props: FormLabelProps) => {
   const { id } = useFormFieldContext();
 
   return (
-    <label htmlFor={id} {...restProps} className="text-sm">
+    <label htmlFor={id} {...restProps}>
       {children}
     </label>
   );
