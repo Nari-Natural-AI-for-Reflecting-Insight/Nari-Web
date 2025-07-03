@@ -26,6 +26,7 @@ const DeleteAccountModal = ({
                 className="w-[250px] h-[250px]"
                 src="public/images/nari-sad.svg"
                 alt="talk"
+                onClick={() => {}}
               />
               <p className="font-kbo text-2xl">탈퇴하기 전에 확인하세요!</p>
               <p className="font-kbo text-center text-sm">
@@ -52,7 +53,6 @@ const DeleteAccountModal = ({
             </div>
           </div>
         </RadixDialog.Content>
-        <RadixDialog.Close />
       </RadixDialog.Portal>
     </RadixDialog.Root>
   );

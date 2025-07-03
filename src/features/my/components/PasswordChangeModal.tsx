@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { passwordField } from '@/features/auth/validation/schema';
 import useChangePasswordMutation from '@/features/my/hooks/useChangePasswordMutation';
 import { Form } from '@/shared/components/form';
+import Header from '@/shared/components/Header';
 
 type PasswordChangeModalProps = {
   open: boolean;
@@ -35,62 +36,57 @@ const PasswordChangeModal = ({
     <RadixDialog.Root modal open={open} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
         <RadixDialog.Content className="max-w-md bg-[#161820] fixed left-1/2 top-0 -translate-x-1/2 h-full w-full">
-          <header className="flex text-white font-kbo text-2xl items-center h-15 px-5">
-            <span
-              className="grow-2 cursor-pointer"
-              onClick={() => onOpenChange(false)}
-            >
-              &lt;
-            </span>
-            <h1 className="grow-2">개인 정보</h1>
-          </header>
+          <Header title="개인 정보" onClick={() => onOpenChange(false)} />
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col h-full justify-around items-center px-5"
           >
-            <div className="flex flex-col bg-[#22252E] rounded-3xl w-full h-60 justify-center items-center gap-4">
-              <Form.Field
-                control={control}
-                name="oldPassword"
-                render={({ field, formState }) => {
-                  return (
-                    <div className="w-full flex flex-col items-center">
-                      <Form.Label className="text-white text-left w-full pl-9">
-                        기존 비밀번호
-                      </Form.Label>
-                      <Form.Control
-                        field={field}
-                        placeholder="기존 비밀번호를 입력해주세요"
-                        type="password"
-                      />
-                      <Form.ErrorMessage
-                        errorMessage={formState.errors.oldPassword?.message}
-                      />
-                    </div>
-                  );
-                }}
-              />
-              <Form.Field
-                control={control}
-                name="newPassword"
-                render={({ field, formState }) => {
-                  return (
-                    <div className="w-full flex flex-col items-center">
-                      <Form.Label className="text-white text-left w-full pl-9">
-                        신규 비밀번호
-                      </Form.Label>
-                      <Form.Control
-                        field={field}
-                        placeholder="새로운 비밀번호를 입력해주세요"
-                        type="password"
-                      />
-                      <Form.ErrorMessage
-                        errorMessage={formState.errors.newPassword?.message}
-                      />
-                    </div>
-                  );
-                }}
-              />
+            <div className="w-full flex flex-col gap-3">
+              <span className="text-white px-3 font-kbo">비밀번호 변경</span>
+              <div className="flex flex-col bg-[#22252E] rounded-3xl w-full h-60 justify-center items-center gap-4">
+                <Form.Field
+                  control={control}
+                  name="oldPassword"
+                  render={({ field, formState }) => {
+                    return (
+                      <div className="w-full flex flex-col items-center">
+                        <Form.Label className="text-white text-left w-full pl-7 pb-1 text-sm">
+                          기존 비밀번호
+                        </Form.Label>
+                        <Form.Control
+                          field={field}
+                          placeholder="기존 비밀번호를 입력해주세요"
+                          type="password"
+                        />
+                        <Form.ErrorMessage
+                          errorMessage={formState.errors.oldPassword?.message}
+                        />
+                      </div>
+                    );
+                  }}
+                />
+                <Form.Field
+                  control={control}
+                  name="newPassword"
+                  render={({ field, formState }) => {
+                    return (
+                      <div className="w-full flex flex-col items-center">
+                        <Form.Label className="text-white text-left w-full pl-7 pb-1 text-sm">
+                          신규 비밀번호
+                        </Form.Label>
+                        <Form.Control
+                          field={field}
+                          placeholder="새로운 비밀번호를 입력해주세요"
+                          type="password"
+                        />
+                        <Form.ErrorMessage
+                          errorMessage={formState.errors.newPassword?.message}
+                        />
+                      </div>
+                    );
+                  }}
+                />
+              </div>
             </div>
 
             <button
@@ -101,7 +97,6 @@ const PasswordChangeModal = ({
             </button>
           </form>
         </RadixDialog.Content>
-        <RadixDialog.Close />
       </RadixDialog.Portal>
     </RadixDialog.Root>
   );
