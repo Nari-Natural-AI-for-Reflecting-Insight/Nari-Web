@@ -1,7 +1,7 @@
 import { Toaster } from 'sonner';
 
 const ToastProvider = () => {
-  return <Toaster />;
+  return <Toaster position="bottom-center" />;
 };
 
 export default ToastProvider;
