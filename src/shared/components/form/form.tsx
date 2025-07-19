@@ -1,13 +1,13 @@
-import { ComponentProps, ComponentPropsWithRef, ReactNode, useId } from 'react';
+import { ComponentProps, useId } from 'react';
 import {
   Controller,
-  ControllerProps,
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
   FormProvider,
-  Control as ReactHookFormControl,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
 } from 'react-hook-form';
+import { Slot } from '@radix-ui/react-slot';
+import { cn } from '@/shared/libs/cn';
 import { createSafeContext } from '@/shared/libs/react/createSafeContext';
 
 export const Root = FormProvider;
@@ -26,11 +26,9 @@ const [FormFieldProvider, useFormFieldContext] =
 export const Field = <
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
->(
-  props: ControllerProps<TFieldValues, TName> & {
-    control: ReactHookFormControl<TFieldValues>;
-  },
-) => {
+>({
+  ...props
+}: ControllerProps<TFieldValues, TName>) => {
   const id = useId();
 
   return (
@@ -43,11 +41,7 @@ export const Field = <
 /* -------------------------------------------------------------------------------------------------
  * FormLabel
  * -----------------------------------------------------------------------------------------------*/
-type FormLabelProps = ComponentProps<'label'> & {
-  children: ReactNode;
-};
-
-export const Label = (props: FormLabelProps) => {
+export const Label = (props: ComponentProps<'label'>) => {
   const { children, ...restProps } = props;
   const { id } = useFormFieldContext();
 
@@ -61,42 +55,33 @@ export const Label = (props: FormLabelProps) => {
 /* -------------------------------------------------------------------------------------------------
  * FormControl
  * -----------------------------------------------------------------------------------------------*/
-export const Control = <
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>,
->(
-  props: ComponentPropsWithRef<'input'> & {
-    field: ControllerRenderProps<TFieldValues, TName>;
-  },
-) => {
+export const Control = (props: ComponentProps<typeof Slot>) => {
   const { id } = useFormFieldContext();
 
-  return (
-    <input
-      className="bg-[#60554F] max-w-[371px] w-full h-14 text-[#AAAAAA] rounded-4xl px-6 py-3 outline-none focus:border-[#FF7500] border border-[#60554F] focus:bg-[#824427] focus:text-white"
-      id={id}
-      {...props}
-      {...props.field}
-    />
-  );
+  return <Slot id={id} {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * FormErrorMessage
  * -----------------------------------------------------------------------------------------------*/
-
 type FormErrorMessageProps = {
   errorMessage?: string;
-};
+} & ComponentProps<'p'>;
 
-export const ErrorMessage = ({ errorMessage }: FormErrorMessageProps) => {
+export const ErrorMessage = ({
+  errorMessage,
+  ...props
+}: FormErrorMessageProps) => {
   const { id } = useFormFieldContext();
-  if (!errorMessage) {
-    return null;
-  }
 
   return (
-    <p id={`${id}-error`} className="text-red-500 text-xs text-center w-full">
+    <p
+      id={`${id}-error`}
+      className={cn(
+        'text-red-500 text-xs text-right w-full pr-5 pt-1',
+        props.className,
+      )}
+    >
       {errorMessage}
     </p>
   );
