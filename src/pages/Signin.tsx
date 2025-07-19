@@ -4,6 +4,7 @@ import useSigninMutation from '@/features/auth/hooks/useSigninMutations';
 import { signinSchema, SigninValues } from '@/features/auth/validation/schema';
 import Button from '@/shared/components/Button';
 import { Form } from '@/shared/components/form';
+import Input from '@/shared/components/Input';
 
 const Signin = () => {
   const { mutate: signinMutate } = useSigninMutation();
@@ -27,17 +28,19 @@ const Signin = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-28"
       >
-        <div className="w-full flex flex-col items-center justify-center gap-1.5 grow-2">
+        <div className="w-full flex flex-col items-center justify-center gap-1.5 grow-2 px-5">
           <Form.Field
             control={control}
             name="email"
             render={({ field, formState }) => (
               <>
-                <Form.Control
-                  field={field}
-                  placeholder="이메일을 입력해주세요"
-                  autoComplete="current-email"
-                />
+                <Form.Control>
+                  <Input
+                    {...field}
+                    placeholder="이메일을 입력해주세요"
+                    autoComplete="current-email"
+                  />
+                </Form.Control>
                 <Form.ErrorMessage
                   errorMessage={formState.errors.email?.message}
                 />
@@ -49,12 +52,14 @@ const Signin = () => {
             name="password"
             render={({ field, formState }) => (
               <>
-                <Form.Control
-                  field={field}
-                  placeholder="비밀번호를 입력해주세요"
-                  type="password"
-                  autoComplete="current-password"
-                />
+                <Form.Control>
+                  <Input
+                    {...field}
+                    placeholder="비밀번호를 입력해주세요"
+                    type="password"
+                    autoComplete="current-password"
+                  />
+                </Form.Control>
                 <Form.ErrorMessage
                   errorMessage={formState.errors.password?.message}
                 />

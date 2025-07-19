@@ -8,19 +8,19 @@ interface SignupLayoutProps {
 
 const SignupLayout = ({ children, title, index }: SignupLayoutProps) => {
   return (
-    <div className="w-full h-screen flex flex-col px-6 gap-11">
-      <h1 className="font-kbo text-white text-2xl flex flex-col grow-2 whitespace-pre-line justify-end">
-        <div className="flex gap-1 pb-9">
-          <div
-            className={`w-3 h-3 rounded-full ${index >= 0 && 'bg-[#FF7500]'}`}
-          />
-          <div
-            className={`w-3 h-3 rounded-full ${index >= 1 ? 'bg-[#FF7500]' : 'bg-[#FF7500]/30'}`}
-          />
-        </div>
+    <div>
+      <div className="flex gap-1 pb-9">
+        <div
+          className={`w-3 h-3 rounded-full ${index >= 0 && 'bg-[#FF7500]'}`}
+        />
+        <div
+          className={`w-3 h-3 rounded-full ${index >= 1 ? 'bg-[#FF7500]' : 'bg-[#FF7500]/30'}`}
+        />
+      </div>
+      <h1 className="font-kbo text-white text-2xl whitespace-pre-line">
         {title}
       </h1>
-      <div className="flex flex-col items-center grow-3 ">{children}</div>
+      <div className="pt-9 w-full flex flex-col items-center">{children}</div>
     </div>
   );
 };

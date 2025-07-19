@@ -6,6 +6,9 @@ import useEmailVerificationMutation from '@/features/auth/hooks/useEmailVerifica
 import { SignupValues } from '@/features/auth/validation/schema';
 import Button from '@/shared/components/Button';
 import { Form } from '@/shared/components/form';
+import Input from '@/shared/components/Input';
+import BottomFixedLayout from '@/shared/layout/BottomFixedLayout';
+import SignupLayout from '@/shared/layout/SignupLayout';
 
 type EmailStepFunnelProps = {
   onNext: ({
@@ -15,9 +18,10 @@ type EmailStepFunnelProps = {
     email: string;
     emailCodeCheck: string;
   }) => void;
+  funnelIndex: number;
 };
 
-const EmailStepFunnel = ({ onNext }: EmailStepFunnelProps) => {
+const EmailStepFunnel = ({ onNext, funnelIndex }: EmailStepFunnelProps) => {
   const { control, getValues, trigger } = useFormContext<SignupValues>();
   const { mutateAsync: emailVerificationMutateAsync } =
     useEmailVerificationMutation();
@@ -61,18 +65,28 @@ const EmailStepFunnel = ({ onNext }: EmailStepFunnelProps) => {
   };
 
   return (
-    <>
-      <div className="grow-2 flex flex-col w-full items-center">
+    <BottomFixedLayout
+      renderBottom={() => (
+        <Button onClick={handleEmailCodeCheckClick}>다음</Button>
+      )}
+    >
+      <SignupLayout
+        title="NARI를 이용하기위해
+            인증번호를 입력 해 주세요."
+        index={funnelIndex}
+      >
         <Form.Field
           control={control}
           name="email"
           render={({ field, formState }) => (
             <>
-              <Form.Control
-                field={field}
-                placeholder="이메일 입력하기"
-                autoComplete="current-email"
-              />
+              <Form.Control>
+                <Input
+                  {...field}
+                  placeholder="이메일 입력하기"
+                  autoComplete="current-email"
+                />
+              </Form.Control>
               <Form.ErrorMessage
                 errorMessage={formState.errors.email?.message}
               />
@@ -80,7 +94,7 @@ const EmailStepFunnel = ({ onNext }: EmailStepFunnelProps) => {
           )}
         />
         <button
-          className="text-[#C4C9C2] cursor-pointer underline text-sm pt-1.5 pb-7"
+          className="w-full text-[#C4C9C2] underline text-sm pt-1.5 pb-7 text-center"
           onClick={handleEmailVerificationClick}
         >
           인증코드 보내기
@@ -112,13 +126,8 @@ const EmailStepFunnel = ({ onNext }: EmailStepFunnelProps) => {
             </>
           )}
         />
-      </div>
-      <div className="grow-1 flex flex-col w-full items-center">
-        <Button onClick={handleEmailCodeCheckClick} className="grow-1">
-          다음
-        </Button>
-      </div>
-    </>
+      </SignupLayout>
+    </BottomFixedLayout>
   );
 };
 
