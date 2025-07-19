@@ -38,7 +38,7 @@ const ProfileChangeModal = ({
                   />
                   <button
                     type="submit"
-                    className="text-xs underline text-[#AAAAAA]/[0.6] absolute right-0 bottom-2 cursor-pointer"
+                    className="text-xs underline text-[#AAAAAA]/[0.6] absolute right-0 bottom-2"
                   >
                     변경하기
                   </button>

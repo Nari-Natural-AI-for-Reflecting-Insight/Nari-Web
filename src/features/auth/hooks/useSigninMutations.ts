@@ -14,7 +14,7 @@ const useSigninMutation = () => {
       accessTokenStorage.setToken(accessToken);
 
       toast.success('로그인에 성공했습니다.');
-      navigate('/');
+      navigate('/talk');
     },
     onError: ({ data }) => {
       toast.error(data.error.message);

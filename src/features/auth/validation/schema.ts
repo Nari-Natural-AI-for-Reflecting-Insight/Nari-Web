@@ -7,11 +7,6 @@ export const baseSignupSchema = z.object({
   passwordConfirm: z.string(),
 });
 
-export const nicknameField = z
-  .string()
-  .min(1, { message: '닉네임을 입력해주세요.' })
-  .max(20, { message: '닉네임은 20자 이하로 입력해주세요.' });
-
 export const passwordField = z
   .string()
   .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' })
@@ -29,7 +24,6 @@ export const signupSchema = baseSignupSchema
   .extend({
     email: z.string().email('올바른 이메일을 입력해주세요.'),
     password: passwordField,
-    nickname: nicknameField,
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],

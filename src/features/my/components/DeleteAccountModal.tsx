@@ -36,14 +36,11 @@ const DeleteAccountModal = ({
             </div>
 
             <div className="flex flex-col grow-2 justify-center gap-12">
-              <button
-                className="text-2xl cursor-pointer"
-                onClick={() => onOpenChange(false)}
-              >
+              <button className="text-2xl" onClick={() => onOpenChange(false)}>
                 유지하기
               </button>
               <button
-                className="underline text-xs cursor-pointer"
+                className="underline text-xs"
                 onClick={() => {
                   deleteAccountMutate();
                 }}

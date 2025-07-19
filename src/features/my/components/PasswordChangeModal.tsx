@@ -7,6 +7,7 @@ import { passwordField } from '@/features/auth/validation/schema';
 import useChangePasswordMutation from '@/features/my/hooks/useChangePasswordMutation';
 import { Form } from '@/shared/components/form';
 import Header from '@/shared/components/Header';
+import Input from '@/shared/components/Input';
 
 type PasswordChangeModalProps = {
   open: boolean;
@@ -53,11 +54,13 @@ const PasswordChangeModal = ({
                         <Form.Label className="text-white text-left w-full pl-7 pb-1 text-sm">
                           기존 비밀번호
                         </Form.Label>
-                        <Form.Control
-                          field={field}
-                          placeholder="기존 비밀번호를 입력해주세요"
-                          type="password"
-                        />
+                        <Form.Control>
+                          <Input
+                            {...field}
+                            placeholder="기존 비밀번호를 입력해주세요"
+                            type="password"
+                          />
+                        </Form.Control>
                         <Form.ErrorMessage
                           errorMessage={formState.errors.oldPassword?.message}
                         />
@@ -74,11 +77,13 @@ const PasswordChangeModal = ({
                         <Form.Label className="text-white text-left w-full pl-7 pb-1 text-sm">
                           신규 비밀번호
                         </Form.Label>
-                        <Form.Control
-                          field={field}
-                          placeholder="새로운 비밀번호를 입력해주세요"
-                          type="password"
-                        />
+                        <Form.Control>
+                          <Input
+                            {...field}
+                            placeholder="새로운 비밀번호를 입력해주세요"
+                            type="password"
+                          />
+                        </Form.Control>
                         <Form.ErrorMessage
                           errorMessage={formState.errors.newPassword?.message}
                         />
@@ -91,7 +96,7 @@ const PasswordChangeModal = ({
 
             <button
               type="submit"
-              className="text-white rounded-4xl bg-amber-500 w-64 text-2xl cursor-pointer h-14"
+              className="text-white rounded-4xl bg-amber-500 w-64 text-2xl h-14"
             >
               수정 완료
             </button>
