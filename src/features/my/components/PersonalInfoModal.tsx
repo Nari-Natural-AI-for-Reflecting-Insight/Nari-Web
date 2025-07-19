@@ -59,7 +59,7 @@ const PersonalInfoModal = ({ open, onOpenChange }: PersonalInfoModalProps) => {
 
             <button
               type="submit"
-              className="text-white rounded-4xl bg-amber-500 w-64 text-2xl cursor-pointer h-14 mt-13"
+              className="text-white rounded-4xl bg-amber-500 w-64 text-2xl h-14 mt-13"
             >
               저장 하기
             </button>

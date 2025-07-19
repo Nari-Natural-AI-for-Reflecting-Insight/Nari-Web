@@ -26,7 +26,7 @@ export const MenuListGroup = ({ items }: MenuListGroupProps) => {
           <button
             key={item.label}
             onClick={item.onClick}
-            className={`flex w-full justify-between bg-[#22252E] items-center h-14 cursor-pointer p-4 ${borderRadius}`}
+            className={`flex w-full justify-between bg-[#22252E] items-center h-14 p-4 ${borderRadius}`}
           >
             <span>{item.label}</span>
             <span>&gt;</span>
