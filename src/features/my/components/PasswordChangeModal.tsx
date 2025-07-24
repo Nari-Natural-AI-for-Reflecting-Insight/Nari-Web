@@ -7,7 +7,7 @@ import { passwordField } from '@/features/auth/validation/schema';
 import useChangePasswordMutation from '@/features/my/hooks/useChangePasswordMutation';
 import { Form } from '@/shared/components/form';
 import Header from '@/shared/components/Header';
-import Input from '@/shared/components/Input';
+import PasswordInput from '@/shared/components/PasswordInput';
 
 type PasswordChangeModalProps = {
   open: boolean;
@@ -36,11 +36,11 @@ const PasswordChangeModal = ({
   return (
     <RadixDialog.Root modal open={open} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
-        <RadixDialog.Content className="max-w-md bg-[#161820] fixed left-1/2 top-0 -translate-x-1/2 h-full w-full">
+        <RadixDialog.Content className="max-w-md bg-[#161820] fixed left-1/2 top-0 -translate-x-1/2 h-full w-full px-3">
           <Header title="개인 정보" onClick={() => onOpenChange(false)} />
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col h-full justify-around items-center px-5"
+            className="flex flex-col h-full justify-around items-center"
           >
             <div className="w-full flex flex-col gap-3">
               <span className="text-white px-3 font-kbo">비밀번호 변경</span>
@@ -55,10 +55,11 @@ const PasswordChangeModal = ({
                           기존 비밀번호
                         </Form.Label>
                         <Form.Control>
-                          <Input
+                          <PasswordInput
                             {...field}
                             placeholder="기존 비밀번호를 입력해주세요"
                             type="password"
+                            className="bg-[#1C1D23]"
                           />
                         </Form.Control>
                         <Form.ErrorMessage
@@ -78,10 +79,11 @@ const PasswordChangeModal = ({
                           신규 비밀번호
                         </Form.Label>
                         <Form.Control>
-                          <Input
+                          <PasswordInput
                             {...field}
                             placeholder="새로운 비밀번호를 입력해주세요"
                             type="password"
+                            className="bg-[#1C1D23]"
                           />
                         </Form.Control>
                         <Form.ErrorMessage

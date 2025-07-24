@@ -1,5 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
+import Header from '@/shared/components/Header';
+import { userQueryOption } from '@/features/auth/apis/queryOption';
+import { useQuery } from '@tanstack/react-query';
 
 type ProfileChangeModalProps = {
   open: boolean;
@@ -10,26 +13,22 @@ const ProfileChangeModal = ({
   open,
   onOpenChange,
 }: ProfileChangeModalProps) => {
+  const { data } = useQuery(userQueryOption.all());
+
   return (
     <RadixDialog.Root modal open={open} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
-        <RadixDialog.Content className="max-w-md bg-[#161820] fixed left-1/2 top-0 -translate-x-1/2 h-full w-full text-white">
-          <header className="flex text-white font-kbo text-2xl items-center h-15 px-5">
-            <span
-              className="grow-2 cursor-pointer"
-              onClick={() => onOpenChange(false)}
-            >
-              &lt;
-            </span>
-            <h1 className="grow-2">프로필 설정</h1>
-          </header>
+        <RadixDialog.Content className="max-w-md bg-[#161820] fixed left-1/2 top-0 -translate-x-1/2 h-full w-full text-white px-3">
+          <Header onClick={() => onOpenChange(false)} title="프로필 설정" />
           <div className="w-full h-screen flex flex-col items-center">
             <section className="flex flex-col grow-1 justify-center items-center w-full gap-6">
               <p className="pr-50">프로필 설정하기</p>
               <div className="flex flex-col gap-5">
                 <div className="flex items-center w-full">
                   <div className="w-[96px] h-[96px] rounded-full bg-amber-200" />
-                  <p className="pl-8 text-2xl font-medium">마이러블리나리</p>
+                  <p className="pl-8 text-2xl font-medium">
+                    {data?.data.nickname}
+                  </p>
                 </div>
                 <form className="flex relative w-[280px] h-[34px]">
                   <input

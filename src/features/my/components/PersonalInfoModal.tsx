@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import Header from '@/shared/components/Header';
+import { useQuery } from '@tanstack/react-query';
+import { userQueryOption } from '@/features/auth/apis/queryOption';
 
 type PersonalInfoModalProps = {
   open: boolean;
@@ -8,6 +10,8 @@ type PersonalInfoModalProps = {
 };
 
 const PersonalInfoModal = ({ open, onOpenChange }: PersonalInfoModalProps) => {
+  const { data } = useQuery(userQueryOption.all());
+
   return (
     <RadixDialog.Root modal open={open} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
@@ -19,7 +23,7 @@ const PersonalInfoModal = ({ open, onOpenChange }: PersonalInfoModalProps) => {
               <div className=" bg-[#22252E] rounded-2xl">
                 <p className="flex items-center h-14 gap-14 px-6">
                   <span>이메일</span>
-                  <span>nari-00@gmail.com</span>
+                  <span>{data?.data.email}</span>
                 </p>
                 <hr className="mx-4 border-[#484C5C]" />
                 <p className="flex items-center h-14 gap-10 px-6">

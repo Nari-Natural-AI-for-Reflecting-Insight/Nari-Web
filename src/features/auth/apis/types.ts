@@ -19,3 +19,10 @@ export type PostEmailVerificationCodeRequest = { email: string };
 
 export type PostEmailVerificationCodeCheckRequest =
   PostEmailVerificationCodeRequest & { verificationCode: string };
+
+export type GetMeResponse = ApiSuccessResponse<{
+  id: number;
+  nickname: string;
+  email: string;
+  currentCreditAmount: number;
+}>;
