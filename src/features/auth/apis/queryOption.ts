@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 import authApi from '.';
 
-const userQueryKeys = {
+export const userQueryKeys = {
   all: () => ['user'],
 };
 

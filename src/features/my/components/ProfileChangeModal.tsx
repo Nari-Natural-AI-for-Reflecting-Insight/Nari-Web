@@ -3,6 +3,11 @@ import * as RadixDialog from '@radix-ui/react-dialog';
 import Header from '@/shared/components/Header';
 import { userQueryOption } from '@/features/auth/apis/queryOption';
 import { useQuery } from '@tanstack/react-query';
+import { Form } from '@/shared/components/form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { changeNicknameSchema } from '../validation/schema';
+import useChangeNicknameMutation from '../hooks/useChangeNicknameMutation';
 
 type ProfileChangeModalProps = {
   open: boolean;
@@ -13,7 +18,18 @@ const ProfileChangeModal = ({
   open,
   onOpenChange,
 }: ProfileChangeModalProps) => {
+  const { handleSubmit, control } = useForm({
+    resolver: zodResolver(changeNicknameSchema),
+    mode: 'onChange',
+  });
+
+  const { mutate: changeNicknameMutate } = useChangeNicknameMutation();
   const { data } = useQuery(userQueryOption.all());
+
+  const onSubmit: SubmitHandler<{ nickname: string }> = (data) => {
+    const { nickname } = data;
+    changeNicknameMutate({ newNickname: nickname });
+  };
 
   return (
     <RadixDialog.Root modal open={open} onOpenChange={onOpenChange}>
@@ -30,11 +46,31 @@ const ProfileChangeModal = ({
                     {data?.data.nickname}
                   </p>
                 </div>
-                <form className="flex relative w-[280px] h-[34px]">
-                  <input
-                    placeholder="닉네임 변경하기"
-                    className="border-b focus:outline-none w-full border-[#60554F]"
+                <form
+                  className="relative w-[280px] h-[34px]"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <Form.Field
+                    control={control}
+                    name="nickname"
+                    render={({ field, formState }) => {
+                      return (
+                        <div className="w-full">
+                          <input
+                            {...field}
+                            placeholder="닉네임 변경하기"
+                            className="border-b 
+                            h-[34px] focus:outline-none w-full border-[#60554F]"
+                          />
+                          <Form.ErrorMessage
+                            className="pr-0"
+                            errorMessage={formState.errors.nickname?.message}
+                          />
+                        </div>
+                      );
+                    }}
                   />
+
                   <button
                     type="submit"
                     className="text-xs underline text-[#AAAAAA]/[0.6] absolute right-0 bottom-2"
