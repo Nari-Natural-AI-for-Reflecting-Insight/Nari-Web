@@ -9,7 +9,7 @@ const Home = () => {
       <BottomFixedLayout
         renderBottom={() => (
           <>
-            <Button onClick={() => navigate('/login')}>로그인</Button>
+            <Button onClick={() => navigate('/signin')}>로그인</Button>
             <nav className="mt-4 flex justify-center">
               <button
                 className="text-white text-[14px]"

@@ -4,6 +4,7 @@ import {
   PostSigninResponse,
   PostEmailVerificationCodeRequest,
   PostEmailVerificationCodeCheckRequest,
+  GetMeResponse,
 } from '@/features/auth/apis/types';
 import { httpClient } from '@/shared/libs/httpClient';
 
@@ -16,7 +17,6 @@ const authApi = {
 
     return await httpClient.post(url, body);
   },
-  postCheckEmail: () => {},
   postSignup: async ({ email, password }: PostSignupRequest) => {
     const url = `${BASE_URL}/sign-up`;
     const body = {
@@ -55,6 +55,11 @@ const authApi = {
       verificationCode,
     };
     return await httpClient.post(url, body);
+  },
+  getMe: async (): Promise<GetMeResponse> => {
+    const url = `${BASE_URL}/me`;
+
+    return await httpClient.get(url);
   },
 };
 

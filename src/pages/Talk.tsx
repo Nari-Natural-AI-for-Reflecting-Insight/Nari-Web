@@ -2,11 +2,20 @@ import { toast } from 'sonner';
 import { TalkSessionStatus } from '@/features/talk/hooks/constants';
 import useHandleTalkSession from '@/features/talk/hooks/useHandleTalkSession';
 import BottomNavigation from '@/shared/components/BottomNavigation';
+import { useQuery } from '@tanstack/react-query';
+import { userQueryOption } from '@/features/auth/apis/queryOption';
+import CreditBox from '@/shared/components/CreditBox';
 
 const Talk = () => {
+  const { data } = useQuery(userQueryOption.all());
   const apiUrl = import.meta.env.VITE_RELAY_SERVER_URL;
+
+  // Todo : 크레딧 충전 후 -> 일일권 결제 후 -> talkId
+  const parentTalkId = 20;
+  const newApiUrl = `${apiUrl}?parentTalkId=${encodeURIComponent(parentTalkId)}`;
+
   const { sessionStatus, connectTalkSession, disconnectTalkSession } =
-    useHandleTalkSession(apiUrl);
+    useHandleTalkSession(newApiUrl);
 
   const startTalk = async () => {
     if (sessionStatus !== TalkSessionStatus.Idle) {
@@ -28,11 +37,17 @@ const Talk = () => {
 
   return (
     <div className="flex flex-col items-center h-full justify-evenly px-9 pb-[108px]">
-      <h1 className="font-mochiy text-4xl text-white text-start w-full">
-        Welcome!
-        <br />
-        <span className="font-kbo">my_nari</span>
-      </h1>
+      <div className="flex flex-col w-full">
+        <CreditBox
+          className="self-end"
+          credit={data?.data.currentCreditAmount || 0}
+        />
+        <h1 className="font-mochiy text-4xl text-white text-start w-full">
+          Welcome!
+          <br />
+          <span className="font-kbo">my_nari</span>
+        </h1>
+      </div>
       <div className="max-w-[244px] w-full h-[334px] bg-[url('public/images/nari-standard.svg')] bg-no-repeat bg-contain" />
       <div className="flex flex-col items-center">
         <button

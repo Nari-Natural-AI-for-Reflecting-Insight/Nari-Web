@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { userQueryOption } from '@/features/auth/apis/queryOption';
 import DeleteAccountModal from '@/features/my/components/DeleteAccountModal';
 import PasswordChangeModal from '@/features/my/components/PasswordChangeModal';
 import PersonalInfoModal from '@/features/my/components/PersonalInfoModal';
 import ProfileChangeModal from '@/features/my/components/ProfileChangeModal';
 import TermsPolicyModal from '@/features/my/components/TermsPolicyModal';
 import BottomNavigation from '@/shared/components/BottomNavigation';
+import CreditBox from '@/shared/components/CreditBox';
 import { MenuListGroup } from '@/shared/components/MenuListGroup';
 
 const My = () => {
@@ -15,6 +18,8 @@ const My = () => {
     useState(false);
   const [isPersonalInfoChangeModalOpen, setIsPersonalInfoChangeModalOpen] =
     useState(false);
+
+  const { data } = useQuery(userQueryOption.all());
 
   const AdvancedMenuItems = [
     {
@@ -63,19 +68,29 @@ const My = () => {
   return (
     <>
       <div className="text-white font-kbo flex flex-col h-full justify-evenly pb-[108px]">
-        <div className="flex flex-col items-center gap-2">
-          <h1>MY</h1>
-          <div className="w-[96px] h-[96px] rounded-full bg-amber-200" />
-          <div className="flex gap-3">
-            <p className="font-kbo">
-              마이러블리나리 <span>님</span>
-            </p>
-            <img
-              className="w-4 h-auto cursor-pointer"
-              src="public/icons/setting.svg"
-              alt="diary"
-              onClick={() => setIsProfileChangeModalOpen(true)}
+        <div className="flex flex-col items-center gap-10">
+          <div className="flex w-full items-center">
+            <div className="w-1/3" />
+            <h1 className="text-2xl w-1/3 flex justify-center">MY</h1>
+            <CreditBox
+              className="w-1/3 pl-5"
+              credit={data?.data.currentCreditAmount || 0}
             />
+          </div>
+          <div className="flex flex-col gap-4 items-center">
+            <div className="w-[96px] h-[96px] rounded-full bg-amber-200" />
+            <div className="flex gap-3">
+              <p className="font-kbo text-2xl font-medium">
+                {data?.data.nickname}
+                <span className="font-kbo font-light text-xl">님</span>
+              </p>
+              <img
+                className="w-6 h-auto cursor-pointer"
+                src="public/icons/setting.svg"
+                alt="diary"
+                onClick={() => setIsProfileChangeModalOpen(true)}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-3 px-4">
