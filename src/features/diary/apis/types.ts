@@ -13,7 +13,7 @@ type Diary = {
   diaryDate: string;
   diaryId: 51;
   qnaList: DiaryQnaList[];
-  status: 'COMPLETED' | 'IN_PROGRESS';
+  status: 'COMPLETED' | 'IN_PROGRESS' | 'NOT_STARTED';
 };
 
 type DiaryQnaList = {
