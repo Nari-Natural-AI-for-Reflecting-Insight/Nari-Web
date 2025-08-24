@@ -14,7 +14,7 @@ const BottomNavigation = () => {
   const isMy = pathname === '/my';
 
   return (
-    <div className="w-full max-w-md h-[108px] flex justify-around absolute bottom-0">
+    <div className="w-full max-w-md h-[108px] flex justify-around absolute bottom-0 bg-[#161820]">
       <button
         className="flex flex-col justify-center items-center cursor-pointer"
         onClick={() => navigation('/data')}

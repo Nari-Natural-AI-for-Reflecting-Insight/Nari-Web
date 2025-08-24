@@ -9,6 +9,8 @@ import TermsPolicyModal from '@/features/my/components/TermsPolicyModal';
 import BottomNavigation from '@/shared/components/BottomNavigation';
 import CreditBox from '@/shared/components/CreditBox';
 import { MenuListGroup } from '@/shared/components/MenuListGroup';
+import { toast } from 'sonner';
+import Header from '@/shared/components/Header';
 
 const My = () => {
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
@@ -26,10 +28,10 @@ const My = () => {
       label: '개인 정보',
       onClick: () => setIsPersonalInfoChangeModalOpen(true),
     },
-    // {
-    //   label: '결제',
-    //   onClick: () => console.log('결제 클릭'),
-    // },
+    {
+      label: '결제',
+      onClick: () => toast.info('아직 준비 중이에요, 조금만 기다려주세요!🚀'),
+    },
     {
       label: '비밀번호 변경',
       onClick: () => setIsChangePasswordOpen(true),
@@ -38,23 +40,23 @@ const My = () => {
   const logoutMenuItems = [
     {
       label: '로그아웃',
-      onClick: () => console.log('개인 정보 클릭'),
+      onClick: () => toast.info('아직 준비 중이에요, 조금만 기다려주세요!🚀'),
     },
   ];
 
   const basicMenuItems = [
-    // {
-    //   label: '공지사항',
-    //   onClick: () => console.log('개인 정보 클릭'),
-    // },
-    // {
-    //   label: '문의 및 상담',
-    //   onClick: () => console.log('결제 클릭'),
-    // },
-    // {
-    //   label: '자주하는 질문',
-    //   onClick: () => console.log('비밀번호 변경 클릭'),
-    // },
+    {
+      label: '공지사항',
+      onClick: () => toast.info('아직 준비 중이에요, 조금만 기다려주세요!🚀'),
+    },
+    {
+      label: '문의 및 상담',
+      onClick: () => toast.info('아직 준비 중이에요, 조금만 기다려주세요!🚀'),
+    },
+    {
+      label: '자주하는 질문',
+      onClick: () => toast.info('아직 준비 중이에요, 조금만 기다려주세요!🚀'),
+    },
     {
       label: '약관 및 정책',
       onClick: () => setIsTermsPolicyModalOpen(true),
@@ -67,13 +69,12 @@ const My = () => {
 
   return (
     <>
-      <div className="text-white font-kbo flex flex-col h-full justify-evenly pb-[108px]">
-        <div className="flex flex-col items-center gap-10">
-          <div className="flex w-full items-center">
-            <div className="w-1/3" />
-            <h1 className="text-2xl w-1/3 flex justify-center">MY</h1>
+      <div className="text-white font-kbo flex flex-col h-full overflow-y-scroll">
+        <div className="flex flex-col items-center gap-10 pb-10">
+          <div className="flex items-center pl-16">
+            <Header title="MY" hasBackIcon={false} />
             <CreditBox
-              className="w-1/3 pl-5"
+              className="w-1/3 ml-5"
               credit={data?.data.currentCreditAmount || 0}
             />
           </div>

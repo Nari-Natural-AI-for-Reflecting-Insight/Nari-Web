@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
+import { cn } from '../libs/cn';
 
-interface BottomFixedLayoutProps {
+interface BottomFixedLayoutProps extends ComponentProps<'div'> {
   children: ReactNode;
   renderBottom: () => ReactNode;
 }
@@ -8,11 +9,16 @@ interface BottomFixedLayoutProps {
 const BottomFixedLayout = ({
   children,
   renderBottom,
+  className,
 }: BottomFixedLayoutProps) => {
   return (
     <div className="w-full h-dvh flex flex-col relative">
-      <div className="flex flex-col justify-center grow-2 px-8">{children}</div>
-      <footer className="flex w-full flex-col items-center justify-center grow-1 z-99">
+      <div
+        className={cn('flex flex-col justify-center grow-2 px-8', className)}
+      >
+        {children}
+      </div>
+      <footer className="flex w-full flex-col items-center justify-center grow-2 z-99">
         {renderBottom()}
       </footer>
     </div>
