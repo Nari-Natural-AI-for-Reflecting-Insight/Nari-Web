@@ -95,9 +95,9 @@ const Talk = () => {
         <p className="font-kbo text-[#C4C9C2] text-sm">
           <span className="underline">나리</span>를 탭하여 대화를 시작 해보세요
         </p>
-        <button className="text-white" onClick={handleBuyDailyCounseling}>
+        {/* <button className="text-white" onClick={handleBuyDailyCounseling}>
           임시 버튼
-        </button>
+        </button> */}
       </div>
 
       <BottomNavigation />
