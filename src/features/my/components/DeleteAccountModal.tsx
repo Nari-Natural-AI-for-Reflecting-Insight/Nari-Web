@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import useDeleteAccountMutation from '@/features/my/hooks/useDeleteAccountMutation';
+import Header from '@/shared/components/Header';
 
 type DeleteAccountModalProps = {
   open: boolean;
@@ -18,7 +19,7 @@ const DeleteAccountModal = ({
       <RadixDialog.Portal>
         <RadixDialog.Content className="max-w-md bg-[#161820] fixed left-1/2 top-0 -translate-x-1/2 h-full w-full">
           <header className="flex text-white font-kbo text-2xl items-center h-15 justify-center">
-            <h1 className="">회원 탈퇴</h1>
+            <Header title="회원탈퇴" hasBackIcon={false} />
           </header>
           <div className="text-white flex flex-col items-center h-full ">
             <div className="grow-1 flex flex-col justify-end gap-5">
