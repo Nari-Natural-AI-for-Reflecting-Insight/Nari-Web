@@ -110,7 +110,10 @@ const Talk = () => {
         open={isOpenTalkViewModal}
         onOpenChange={setIsOpenTalkViewModal}
       />
-      <TicketViewModal open={true} onOpenChange={setIsOpenTicketViewModal} />
+      <TicketViewModal
+        open={isOpenTicketViewModal}
+        onOpenChange={setIsOpenTicketViewModal}
+      />
     </div>
   );
 };

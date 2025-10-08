@@ -13,7 +13,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import Dialog from '@/shared/components/Dialog';
-import { useNavigate } from 'react-router';
 
 type BuyTicketViewModalProps = {
   open: boolean;
