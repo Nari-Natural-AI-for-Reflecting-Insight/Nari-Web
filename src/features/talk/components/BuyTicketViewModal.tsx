@@ -3,14 +3,17 @@ import {
   userQueryOption,
 } from '@/features/auth/apis/queryOption';
 import { creditPayDailyCounselingResponse } from '@/features/credit/apis/type';
+import CreditViewModal from '@/features/credit/components/CreditViewModal';
 import usePayDailyCounselingMutation from '@/features/credit/hooks/usePayDailyCounselingMutation';
 import Button from '@/shared/components/Button';
 import Header from '@/shared/components/Header';
 import BottomFixedLayout from '@/shared/layout/BottomFixedLayout';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import Dialog from '@/shared/components/Dialog';
+import { useNavigate } from 'react-router';
 
 type BuyTicketViewModalProps = {
   open: boolean;
@@ -26,6 +29,8 @@ const BuyTicketViewModal = ({
   const { data: userData } = useQuery(userQueryOption.all());
   const { mutateAsync: payDailyCounselingMutateAsync } =
     usePayDailyCounselingMutation();
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [isOpenCreditViewModal, setIsOpenCreditViewModal] = useState(false);
 
   const handleBuyDailyCounseling = async () => {
     try {
@@ -38,6 +43,12 @@ const BuyTicketViewModal = ({
       toast.error('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
+
+  useEffect(() => {
+    if (userData?.data.currentCreditAmount) {
+      userData?.data.currentCreditAmount < 1000 && setIsOpenDialog(true);
+    }
+  });
 
   return (
     <>
@@ -105,6 +116,36 @@ const BuyTicketViewModal = ({
           </RadixDialog.Content>
         </RadixDialog.Portal>
       </RadixDialog.Root>
+      <Dialog
+        open={isOpenDialog && open}
+        onOpenChange={setIsOpenDialog}
+        isPriority={true}
+        title={'크레딧이 부족해요'}
+        description={'크레딧을 충전하고 나리와 \n 대화를 진행해보세요!'}
+        renderLeftButton={() => (
+          <Button
+            className="w-[150px] bg-[#FF7500] rounded-4xl h-12 text-white"
+            onClick={() => setIsOpenCreditViewModal(true)}
+          >
+            크레딧 충전하기
+          </Button>
+        )}
+        renderBottomButton={() => (
+          <Button
+            className="underline text-white text-sm"
+            onClick={() => {
+              onOpenChange(false);
+              setIsOpenDialog(false);
+            }}
+          >
+            뒤로가기
+          </Button>
+        )}
+      />
+      <CreditViewModal
+        open={isOpenCreditViewModal}
+        onOpenChange={setIsOpenCreditViewModal}
+      />
     </>
   );
 };

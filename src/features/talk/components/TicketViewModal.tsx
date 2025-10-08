@@ -37,7 +37,9 @@ const TicketViewModal = ({ open, onOpenChange }: TicketViewModalProps) => {
               </div>
               <div className="flex relative h-36">
                 <p className="font-bagel text-7xl flex gap-3 items-end">
-                  2<span className="font-kbo text-base text-[#8A8A8A]">장</span>
+                  {userData &&
+                    Math.floor(userData?.data.currentCreditAmount / 1000)}
+                  <span className="font-kbo text-base text-[#8A8A8A]">장</span>
                 </p>
                 <img
                   src="public/images/subtract.png"

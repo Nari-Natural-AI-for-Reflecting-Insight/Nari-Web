@@ -8,7 +8,6 @@ import CreditBox from '@/shared/components/CreditBox';
 import { talkyQueryOption } from '@/features/talk/apis/queryOption';
 import Dialog from '@/shared/components/Dialog';
 import { useEffect, useState, useMemo } from 'react';
-import CreditViewModal from '@/features/credit/components/CreditViewModal';
 import TalkViewModal from '@/features/talk/components/TalkViewModal';
 import Button from '@/shared/components/Button';
 import TicketViewModal from '@/features/talk/components/TicketViewModal';
@@ -18,8 +17,6 @@ const Talk = () => {
   const apiUrl = import.meta.env.VITE_RELAY_SERVER_URL;
   const { data: TalkTopActiveData } = useQuery(talkyQueryOption.topActive());
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
-  const [isOpenCreditViewModal, setIsOpenCreditViewModal] =
-    useState<boolean>(false);
   const [isOpenTalkViewModal, setIsOpenTalkViewModal] =
     useState<boolean>(false);
   const [isOpenTicketViewModal, setIsOpenTicketViewModal] =
@@ -40,7 +37,7 @@ const Talk = () => {
     }
 
     if (!parentTalkId) {
-      toast.error('이용권을 먼저 구매해주세요.');
+      toast.error('티켓을 먼저 구매해주세요.');
       return;
     }
     connectTalkSession();
@@ -86,28 +83,14 @@ const Talk = () => {
         open={isOpenDialog}
         onOpenChange={setIsOpenDialog}
         isPriority={true}
-        title={
-          (userData?.data.currentCreditAmount ?? 0) >= 1000
-            ? '이용권을 구매하세요'
-            : '크레딧이 부족해요'
-        }
-        description={
-          (userData?.data.currentCreditAmount ?? 0) >= 1000
-            ? '이용권을 구매하고 나리와 \n 대화를 진행해보세요!'
-            : '크레딧을 충전하고 나리와 \n 대화를 진행해보세요!'
-        }
+        title={'티켓이 부족해요'}
+        description={'크레딧을 충전하고 나리와 \n 대화를 진행해보세요!'}
         renderLeftButton={() => (
           <Button
             className="w-[150px] bg-[#FF7500] rounded-4xl h-12 text-white"
-            onClick={
-              (userData?.data.currentCreditAmount ?? 0) >= 1000
-                ? () => {}
-                : () => setIsOpenCreditViewModal(true)
-            }
+            onClick={() => setIsOpenTicketViewModal(true)}
           >
-            {(userData?.data.currentCreditAmount ?? 0) >= 1000
-              ? '이용권 구매하기'
-              : '크레딧 충전하기'}
+            '크레딧 충전하기'
           </Button>
         )}
         renderBottomButton={() => (
@@ -121,20 +104,13 @@ const Talk = () => {
           </Button>
         )}
       />
-      <CreditViewModal
-        open={isOpenCreditViewModal}
-        onOpenChange={setIsOpenCreditViewModal}
-      />
       <TalkViewModal
         sessionStatus={sessionStatus}
         disconnectTalkSession={disconnectTalkSession}
         open={isOpenTalkViewModal}
         onOpenChange={setIsOpenTalkViewModal}
       />
-      <TicketViewModal
-        open={isOpenTicketViewModal}
-        onOpenChange={setIsOpenTicketViewModal}
-      />
+      <TicketViewModal open={true} onOpenChange={setIsOpenTicketViewModal} />
     </div>
   );
 };
