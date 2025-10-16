@@ -84,13 +84,13 @@ const Talk = () => {
         onOpenChange={setIsOpenDialog}
         isPriority={true}
         title={'티켓이 부족해요'}
-        description={'크레딧을 충전하고 나리와 \n 대화를 진행해보세요!'}
+        description={'티켓을 구매하고 나리와 \n 대화를 진행해보세요!'}
         renderLeftButton={() => (
           <Button
             className="w-[150px] bg-[#FF7500] rounded-4xl h-12 text-white"
             onClick={() => setIsOpenTicketViewModal(true)}
           >
-            '크레딧 충전하기'
+            티켓 구매하기
           </Button>
         )}
         renderBottomButton={() => (
