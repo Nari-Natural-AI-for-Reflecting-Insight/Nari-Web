@@ -63,6 +63,11 @@ jobs:
           cp -r public/images dist/assets/public/ 2>/dev/null || true
           cp -r public/fonts dist/assets/public/ 2>/dev/null || true
           cp -r public/icons dist/assets/public/ 2>/dev/null || true
+          
+          mkdir -p dist/public
+          cp -r public/images dist/public/ 2>/dev/null || true
+          cp -r public/fonts dist/public/ 2>/dev/null || true
+          cp -r public/icons dist/public/ 2>/dev/null || true
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
