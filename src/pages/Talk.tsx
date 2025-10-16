@@ -2,34 +2,27 @@ import { toast } from 'sonner';
 import { TalkSessionStatus } from '@/features/talk/hooks/constants';
 import useHandleTalkSession from '@/features/talk/hooks/useHandleTalkSession';
 import BottomNavigation from '@/shared/components/BottomNavigation';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  userQueryKeys,
-  userQueryOption,
-} from '@/features/auth/apis/queryOption';
+import { useQuery } from '@tanstack/react-query';
+import { userQueryOption } from '@/features/auth/apis/queryOption';
 import CreditBox from '@/shared/components/CreditBox';
 import { talkyQueryOption } from '@/features/talk/apis/queryOption';
 import Dialog from '@/shared/components/Dialog';
 import { useEffect, useState, useMemo } from 'react';
-import CreditViewModal from '@/features/credit/components/CreditViewModal';
 import TalkViewModal from '@/features/talk/components/TalkViewModal';
 import Button from '@/shared/components/Button';
-import usePayDailyCounselingMutation from '@/features/credit/hooks/usePayDailyCounselingMutation';
-import { creditPayDailyCounselingResponse } from '@/features/credit/apis/type';
+import TicketViewModal from '@/features/talk/components/TicketViewModal';
 
 const Talk = () => {
-  const queryClient = useQueryClient();
   const { data: userData } = useQuery(userQueryOption.all());
   const apiUrl = import.meta.env.VITE_RELAY_SERVER_URL;
   const { data: TalkTopActiveData } = useQuery(talkyQueryOption.topActive());
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
-  const [isOpenCreditViewModal, setIsOpenCreditViewModal] =
-    useState<boolean>(false);
   const [isOpenTalkViewModal, setIsOpenTalkViewModal] =
     useState<boolean>(false);
-  const { mutateAsync: payDailyCounselingMutateAsync } =
-    usePayDailyCounselingMutation();
-  const [parentTalkId, setParentTalkId] = useState<number>(0);
+  const [isOpenTicketViewModal, setIsOpenTicketViewModal] =
+    useState<boolean>(false);
+  const parentTalkId = localStorage.getItem('talk_id') ?? '';
+
   const newApiUrl = useMemo(
     () => `${apiUrl}?parentTalkId=${encodeURIComponent(parentTalkId)}`,
     [apiUrl, parentTalkId],
@@ -44,7 +37,7 @@ const Talk = () => {
     }
 
     if (!parentTalkId) {
-      toast.error('이용권을 먼저 구매해주세요.');
+      toast.error('티켓을 먼저 구매해주세요.');
       return;
     }
     connectTalkSession();
@@ -54,18 +47,6 @@ const Talk = () => {
   useEffect(() => {
     setIsOpenDialog(!TalkTopActiveData?.data.existsActiveTalk);
   }, [TalkTopActiveData]);
-
-  const handleBuyDailyCounseling = async () => {
-    try {
-      const data: creditPayDailyCounselingResponse =
-        await payDailyCounselingMutateAsync();
-      toast.success('이용권이 정상적으로 구매되었습니다.');
-      queryClient.invalidateQueries({ queryKey: { ...userQueryKeys.all() } });
-      setParentTalkId(data.data.talkId);
-    } catch {
-      toast.error('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    }
-  };
 
   return (
     <div className="flex flex-col items-center h-full justify-evenly px-9 pb-[108px]">
@@ -95,9 +76,6 @@ const Talk = () => {
         <p className="font-kbo text-[#C4C9C2] text-sm">
           <span className="underline">나리</span>를 탭하여 대화를 시작 해보세요
         </p>
-        {/* <button className="text-white" onClick={handleBuyDailyCounseling}>
-          임시 버튼
-        </button> */}
       </div>
 
       <BottomNavigation />
@@ -105,28 +83,14 @@ const Talk = () => {
         open={isOpenDialog}
         onOpenChange={setIsOpenDialog}
         isPriority={true}
-        title={
-          (userData?.data.currentCreditAmount ?? 0) >= 1000
-            ? '이용권을 구매하세요'
-            : '크레딧이 부족해요'
-        }
-        description={
-          (userData?.data.currentCreditAmount ?? 0) >= 1000
-            ? '이용권을 구매하고 나리와 \n 대화를 진행해보세요!'
-            : '크레딧을 충전하고 나리와 \n 대화를 진행해보세요!'
-        }
+        title={'티켓이 부족해요'}
+        description={'크레딧을 충전하고 나리와 \n 대화를 진행해보세요!'}
         renderLeftButton={() => (
           <Button
             className="w-[150px] bg-[#FF7500] rounded-4xl h-12 text-white"
-            onClick={
-              (userData?.data.currentCreditAmount ?? 0) >= 1000
-                ? handleBuyDailyCounseling
-                : () => setIsOpenCreditViewModal(true)
-            }
+            onClick={() => setIsOpenTicketViewModal(true)}
           >
-            {(userData?.data.currentCreditAmount ?? 0) >= 1000
-              ? '이용권 구매하기'
-              : '크레딧 충전하기'}
+            '크레딧 충전하기'
           </Button>
         )}
         renderBottomButton={() => (
@@ -140,15 +104,15 @@ const Talk = () => {
           </Button>
         )}
       />
-      <CreditViewModal
-        open={isOpenCreditViewModal}
-        onOpenChange={setIsOpenCreditViewModal}
-      />
       <TalkViewModal
         sessionStatus={sessionStatus}
         disconnectTalkSession={disconnectTalkSession}
         open={isOpenTalkViewModal}
         onOpenChange={setIsOpenTalkViewModal}
+      />
+      <TicketViewModal
+        open={isOpenTicketViewModal}
+        onOpenChange={setIsOpenTicketViewModal}
       />
     </div>
   );
