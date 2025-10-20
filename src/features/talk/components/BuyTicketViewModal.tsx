@@ -38,6 +38,7 @@ const BuyTicketViewModal = ({
       toast.success('이용권이 정상적으로 구매되었습니다.');
       queryClient.invalidateQueries({ queryKey: { ...userQueryKeys.all() } });
       localStorage.setItem('talk_id', String(data.data.talkId));
+      onOpenChange(false);
     } catch {
       toast.error('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
